@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Threading.Tasks;
+using Newtonsoft;
+using Newtonsoft.Json;
 
 namespace BitNetly.Exceptions
 {
     /// <summary>
     /// 
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class BitNetlyException : Exception
     {
         private string status;
@@ -19,6 +22,7 @@ namespace BitNetly.Exceptions
         /// <summary>
         /// 
         /// </summary>
+        [JsonProperty("status_code")]
         public string Status
         {
             get { return status; }
@@ -27,6 +31,7 @@ namespace BitNetly.Exceptions
         /// <summary>
         /// 
         /// </summary>
+        [JsonProperty("status_txt")]
         public string StatusText
         {
             get { return text; }
