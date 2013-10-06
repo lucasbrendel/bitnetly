@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace bitnetly
+namespace BitNetly
 {
     public interface IBitResponse
     {

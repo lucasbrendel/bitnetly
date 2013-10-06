@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace bitnetly
+namespace BitNetly
 {
     public enum StatusCode
     {

@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace bitnetly
+namespace BitNetly
 {
         public enum Reason
         {

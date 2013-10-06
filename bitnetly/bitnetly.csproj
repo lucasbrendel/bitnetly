@@ -7,8 +7,8 @@
     <ProjectGuid>{1EC0DC39-43F2-4FC8-B48D-790312837793}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>bitnetly</RootNamespace>
-    <AssemblyName>bitnetly</AssemblyName>
+    <RootNamespace>BitNetly</RootNamespace>
+    <AssemblyName>BitNetly</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,6 +50,9 @@
     <Compile Include="IBitResponse.cs" />
     <Compile Include="IBitService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

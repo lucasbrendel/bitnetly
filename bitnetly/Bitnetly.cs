@@ -8,7 +8,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Text;
 
-namespace bitnetly
+namespace BitNetly
 {
     class Bitnetly : IBitService
     {
