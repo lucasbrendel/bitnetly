@@ -3,9 +3,6 @@ using System.Collections.Generic;
 
 namespace bitnetly
 {
-    /// <summary>
-    /// Defines the possible return codes when calling the various methods in the library
-    /// </summary>
     public enum StatusCode
     {
         OK = 0,

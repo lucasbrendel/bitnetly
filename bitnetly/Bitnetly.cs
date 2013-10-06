@@ -90,9 +90,6 @@ namespace bitnetly
 
             string method = GetShortenUrl(longUrls);
 
-            XDocument response = null;
-            //XElement errorCode, shortUrl = null;
-
             try
             {
 
@@ -106,35 +103,8 @@ namespace bitnetly
                 throw new BitNetException(Reason.MethodNotFound, "The file identified by the url does not exist.", e);
             }
 
-            // Try to retreive the error code from the XML response
-            var errorCode = response.Descendants("errorCode").FirstOrDefault();
-            if (errorCode == null || !Enum.IsDefined(typeof(StatusCode), (int)errorCode))
-                throw new BitNetException(Reason.UnableToParseResponse, "Unable to extract \"errorCode\"");
-
-            // If the call was unsuccessful, look no further
-            statusCode = (StatusCode)(int)errorCode;
-            if (statusCode != StatusCode.OK)
-                return new IBitResponse[0];
-
-            // Try to retreive the short URLs generated for us
-            var shortUrlList = new List<IBitResponse>();
-            var results = response.Descendants("nodeKeyVal");
-            if (results == null)
-                throw new BitNetException(Reason.UnableToParseResponse, "Unable to extract \"results\"");
-            foreach (var node in results)
-            {
-                var nodeError = node.Descendants("errorCode").SingleOrDefault();
-                var longUrl = node.Descendants("nodeKey").SingleOrDefault();
-                var shortenedUrl = node.Descendants("shortUrl").SingleOrDefault();
-
-                shortUrlList.Add(new BitnetResponse()
-                {
-                    StatusCode = nodeError == null ? StatusCode.OK : (StatusCode)(int)nodeError,
-                    LongUrl = (string)longUrl,
-                    ShortUrl = (string)shortenedUrl
-                });
-            }
-            return shortUrlList.ToArray();
+            statusCode = StatusCode.UnknownError;
+            return new IBitResponse[1];
         }
     }
 }
