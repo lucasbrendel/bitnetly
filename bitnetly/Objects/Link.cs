@@ -95,8 +95,25 @@ namespace BitNetly.Objects
 
         }
 
-        public void Expand()
+        public static Link ExpandURL(string shortURL, string accessToken)
         {
+            RestRequest r = new RestRequest("/expand", Method.GET);
+            r.AddParameter("access_token", accessToken);
+            r.AddParameter("shortUrl", HttpUtility.UrlEncode(shortURL));
+            RestClient c = new RestClient(BitNetlyService.APIURL + BitNetlyService.VERSION);
+
+            IRestResponse i = c.Execute(r);
+
+            BitNetlyException b = JsonConvert.DeserializeObject<BitNetlyException>(i.Content);
+
+            if (i.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw b;
+            }
+
+            Link l = JsonConvert.DeserializeObject<Link>(i.Content);
+
+            return l;
 
         }
 

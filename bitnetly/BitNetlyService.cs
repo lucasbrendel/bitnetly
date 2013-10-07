@@ -29,6 +29,11 @@ namespace BitNetly
 
         public const string OAUTHURL = "https://bitly.com/";
 
+        public string AccessToken
+        {
+            get { return accessToken; }
+        }
+
         /// <summary>
         /// 
         /// </summary>
