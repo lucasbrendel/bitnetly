@@ -19,6 +19,7 @@ namespace BitNetly.Objects
         private string longURL;
         private string newHash;
         private string url;
+        private string error;
 
         [JsonProperty("global_hash")]
         public string GlobalHash
@@ -85,6 +86,19 @@ namespace BitNetly.Objects
             }
         }
 
+        [JsonProperty("error")]
+        public string Error
+        {
+            get { return error; }
+            set
+            {
+                if (value != error)
+                {
+                    error = value;
+                }
+            }
+        }
+
         public Link()
         {
 
@@ -95,11 +109,11 @@ namespace BitNetly.Objects
 
         }
 
-        public static Link ExpandURL(string shortURL, string accessToken)
+        public static IList<Link> ExpandURL(string hash, string accessToken)
         {
             RestRequest r = new RestRequest("/expand", Method.GET);
             r.AddParameter("access_token", accessToken);
-            r.AddParameter("shortUrl", HttpUtility.UrlEncode(shortURL));
+            r.AddParameter("hash", HttpUtility.UrlEncode(hash));
             RestClient c = new RestClient(BitNetlyService.APIURL + BitNetlyService.VERSION);
 
             IRestResponse i = c.Execute(r);
@@ -110,11 +124,11 @@ namespace BitNetly.Objects
             {
                 throw b;
             }
+            JToken j = JObject.Parse(JObject.Parse(i.Content).GetValue("data").ToString()).GetValue("expand");
 
-            Link l = JsonConvert.DeserializeObject<Link>(i.Content);
+            IList<Link> l = JsonConvert.DeserializeObject<IList<Link>>(j.ToString());
 
             return l;
-
         }
 
         public void Info()
