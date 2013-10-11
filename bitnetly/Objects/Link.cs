@@ -109,6 +109,13 @@ namespace BitNetly.Objects
 
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="hash"></param>
+        /// <param name="accessToken"></param>
+        /// <returns></returns>
         public static IList<Link> ExpandURL(string hash, string accessToken)
         {
             RestRequest r = new RestRequest("/expand", Method.GET);
