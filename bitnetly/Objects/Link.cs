@@ -21,6 +21,8 @@ namespace BitNetly.Objects
         private string url;
         private string error;
 
+        private DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
         [JsonProperty("global_hash")]
         public string GlobalHash
         {
@@ -99,14 +101,35 @@ namespace BitNetly.Objects
             }
         }
 
-        public Link()
+        [JsonObject(Id="info", MemberSerialization=MemberSerialization.OptIn)]
+        public struct LinkInfo
         {
+            [JsonProperty("short_url")]
+            string ShortURL;
 
-        }
+            [JsonProperty("hash")]
+            string Hash;
 
-        public Link(string url)
-        {
+            [JsonProperty("user_hash")]
+            string UserHash;
 
+            [JsonProperty("global_hash")]
+            string GlobalHash;
+
+            [JsonProperty("title")]
+            string Title;
+
+            [JsonProperty("created_by")]
+            string CreatedBy;
+
+            [JsonProperty("created_at")]
+            double CreatedAt;
+
+            public DateTime GetCreatedTime()
+            {
+                DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                return epoch.AddSeconds(CreatedAt);
+            }
         }
 
         /// <summary>
@@ -138,9 +161,31 @@ namespace BitNetly.Objects
             return l;
         }
 
-        public void Info()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shortURL"></param>
+        /// <param name="accessToken"></param>
+        public static IList<LinkInfo> Info(string shortURL, string accessToken)
         {
+            RestClient c = new RestClient(BitNetlyService.APIURL + BitNetlyService.VERSION);
+            RestRequest r = new RestRequest("/info", Method.GET);
 
+            r.AddParameter("shortUrl", shortURL);
+            r.AddParameter("access_token", accessToken);
+
+            IRestResponse i = c.Execute(r);
+
+            if (i.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new HttpException((int)i.StatusCode, i.StatusDescription);
+            }
+
+            JToken j = JObject.Parse(JObject.Parse(i.Content).GetValue("data").ToString()).GetValue("info");
+
+            IList<LinkInfo> l = JsonConvert.DeserializeObject<IList<LinkInfo>>(j.ToString());
+
+            return l;
         }
 
         /// <summary>
@@ -181,24 +226,84 @@ namespace BitNetly.Objects
             return shortURL;
         }
 
-        public void Shorten()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shortURL"></param>
+        /// <param name="accessToken"></param>
+        /// <param name="title"></param>
+        /// <param name="note"></param>
+        public static void Edit(string shortURL, string accessToken, string title = "", string note = "")
         {
-
+            RestRequest r = new RestRequest("/user/link_edit", Method.GET);
         }
 
-        public void Lookup()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="longURL"></param>
+        /// <param name="accessToken"></param>
+        public static void Lookup(string[] longURL, string accessToken)
         {
+            RestRequest r = new RestRequest("/user/link_lookup");
 
+            foreach (string url in longURL)
+            {
+                r.AddParameter("url", HttpUtility.UrlEncode(url));
+            }
+
+            r.AddParameter("access_token", accessToken);
+
+            RestClient c = new RestClient(BitNetlyService.APIURL + BitNetlyService.VERSION);
+
+            IRestResponse i = c.Execute(r);
         }
 
-        public void LinkEdit()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="longURL"></param>
+        /// <param name="accessToken"></param>
+        /// <param name="title"></param>
+        /// <param name="note"></param>
+        public static void Save(string longURL, string accessToken, string title = "", string note = "")
         {
+            RestClient c = new RestClient(BitNetlyService.APIURL + BitNetlyService.VERSION);
+            RestRequest r = new RestRequest("/user/link_save");
 
-        }
+            if (longURL.Contains(' '))
+            {
+                throw new ArgumentException("The URL to be shortened cannot contain any spaces.");
+            }
 
-        public void LinkSave()
-        {
+            if (longURL.Contains('?'))
+            {
+                if (longURL[longURL.IndexOf('?') - 1] != '/')
+                {
+                    longURL = longURL.Insert(longURL.IndexOf('?') - 1, "/");
+                }
+            }
 
+            r.AddParameter("longUrl", HttpUtility.UrlEncode(longURL));
+            r.AddParameter("access_token", accessToken);
+
+            if (title != "")
+            {
+                r.AddParameter("title", title);
+            }
+            if (note != "")
+            {
+                r.AddParameter("note", note);
+            }
+
+            IRestResponse i = c.Execute(r);
+
+            BitNetlyException b = JsonConvert.DeserializeObject<BitNetlyException>(i.Content);
+
+            if (b.StatusText != "OK")
+            {
+                throw new HttpException(Convert.ToInt32(b.Status), b.StatusText);
+            }
         }
     }
 }
