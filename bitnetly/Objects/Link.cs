@@ -132,6 +132,13 @@ namespace BitNetly.Objects
             }
         }
 
+        public struct SavedLink
+        {
+            string Link;
+            string AggregateLink;
+            string LongUrl;
+        }
+
         /// <summary>
         /// 
         /// 
@@ -266,7 +273,7 @@ namespace BitNetly.Objects
         /// <param name="accessToken"></param>
         /// <param name="title"></param>
         /// <param name="note"></param>
-        public static void Save(string longURL, string accessToken, string title = "", string note = "")
+        public static SavedLink Save(string longURL, string accessToken, string title = "", string note = "")
         {
             RestClient c = new RestClient(BitNetlyService.APIURL + BitNetlyService.VERSION);
             RestRequest r = new RestRequest("/user/link_save");
@@ -304,6 +311,13 @@ namespace BitNetly.Objects
             {
                 throw new HttpException(Convert.ToInt32(b.Status), b.StatusText);
             }
+
+            JObject j = JObject.Parse(i.Content);
+            JToken t = j.GetValue("data");
+
+            SavedLink l = JsonConvert.DeserializeObject<SavedLink>(t.ToString());
+
+            return l;
         }
     }
 }

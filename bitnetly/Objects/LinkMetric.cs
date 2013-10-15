@@ -32,7 +32,7 @@ namespace BitNetly.Objects
         /// <summary>
         /// 
         /// </summary>
-        public struct Clicks
+        public struct LinkClicks
         {
             /// <summary>
             /// 
@@ -65,7 +65,19 @@ namespace BitNetly.Objects
             int units;
         };
 
-        private DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        public struct CountryClick
+        {
+            string Country;
+            string Clicks;
+        };
+
+        public struct LinkCountries
+        {
+            string TimeZoneOffset;
+            string Unit;
+            string Units;
+            CountryClick[] Countries; 
+        }
         
         /// <summary>
         /// 
@@ -76,7 +88,7 @@ namespace BitNetly.Objects
         /// <param name="unit"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public static Clicks GetClicks(string shortURL, string accesstoken, bool rollup = true, TimeUnits unit = TimeUnits.All, int limit = 100)
+        public static LinkClicks Clicks(string shortURL, string accesstoken, bool rollup = true, TimeUnits unit = TimeUnits.All, int limit = 100)
         {
             RestRequest r = new RestRequest("/link/clicks", Method.GET);
             RestClient c = new RestClient(BitNetlyService.APIURL + BitNetlyService.VERSION);
@@ -98,10 +110,12 @@ namespace BitNetly.Objects
             JObject t = JObject.Parse(i.Content);
             JToken j = t.GetValue("data");
             
-            Clicks l = JsonConvert.DeserializeObject<Clicks>(j.ToString());
+            LinkClicks l = JsonConvert.DeserializeObject<LinkClicks>(j.ToString());
 
             return l;
 
         }
+
+        public static 
     }
 }
