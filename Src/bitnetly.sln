@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bitnetly", "bitnetly\bitnetly.csproj", "{1EC0DC39-43F2-4FC8-B48D-790312837793}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitNetlyTester", "BitNetlyTester\BitNetlyTester.csproj", "{44BA46D5-689B-4B4A-8CF5-CF7C8B7EE3EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bitnetly", "bitnetly\Bitnetly.csproj", "{1EC0DC39-43F2-4FC8-B48D-790312837793}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +13,6 @@ Global
 		{1EC0DC39-43F2-4FC8-B48D-790312837793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EC0DC39-43F2-4FC8-B48D-790312837793}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EC0DC39-43F2-4FC8-B48D-790312837793}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44BA46D5-689B-4B4A-8CF5-CF7C8B7EE3EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44BA46D5-689B-4B4A-8CF5-CF7C8B7EE3EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44BA46D5-689B-4B4A-8CF5-CF7C8B7EE3EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44BA46D5-689B-4B4A-8CF5-CF7C8B7EE3EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
