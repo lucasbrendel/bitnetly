@@ -116,6 +116,6 @@ namespace BitNetly.Objects
 
         }
 
-        public static 
+        
     }
 }
