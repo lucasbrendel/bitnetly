@@ -16,32 +16,32 @@ namespace BitNetly.Objects
         public enum TimeUnits
         {
             /// <summary>
-            /// 
+            /// Minute time unit request
             /// </summary>
             Minute,
 
             /// <summary>
-            /// 
+            /// Hour time unit request
             /// </summary>
             Hour,
 
             /// <summary>
-            /// 
+            /// Day time unit request
             /// </summary>
             Day,
 
             /// <summary>
-            /// 
+            /// Week time unit request
             /// </summary>
             Week,
 
             /// <summary>
-            /// 
+            /// Month time unit request
             /// </summary>
             Month,
 
             /// <summary>
-            /// 
+            /// Request all time units
             /// </summary>
             All
         };
@@ -84,7 +84,7 @@ namespace BitNetly.Objects
             /// 
             /// </summary>
             [JsonProperty("units")]
-            int units;
+            int Units;
         };
 
         /// <summary>
@@ -151,7 +151,6 @@ namespace BitNetly.Objects
 
             r.AddParameter("access_token", accesstoken);
             r.AddParameter("link", shortURL);
-            //r.AddParameter("rollup", rollup.ToString());
             r.AddParameter("limit", limit);
 
             IRestResponse i = c.Execute(r);
